@@ -10,7 +10,7 @@ pipeline {
 */
 
 node {
-	  parameters {
+  parameters {
         string(
 		name: 'Target_Host', 
 		description: '<h4>Node ip separated by comma where Telegraf will be installed, e.g 15.214.x.x, 15.214.x.x, 15.214.x.x, 15.214.x.x.</h4>'
