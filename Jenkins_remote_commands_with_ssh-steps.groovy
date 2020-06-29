@@ -21,14 +21,14 @@ pipeline {
   }		
 	
     stages {
-        stage('Setting Parameters') {
+        stage('Emty Tasks') {
             steps {
                 sh '''
 				echo "empty"
 				'''
             }
         }		
-        stage('Uninstalling previous connector (if exists)') {	
+        stage('Setting Parameters') {	
             steps {
 			  script {
 				    def remote = [:]
@@ -38,7 +38,7 @@ pipeline {
 					remote.password = 'arst@dm1n'
 					remote.allowAnyHosts = true
 					stage('Uninstalling previous connector (if exists)') {
-						sshCommand remote: remote, command: "printf \"\n\" | /opt/arcsight_smart_connector_syslogd_tcp_514/current/UninstallerData/Uninstall_ArcSightAgents -i console"
+						sshCommand failOnError: false, remote: remote, command: "printf \"\n\" | /opt/arcsight_smart_connector_syslogd_tcp_514/current/UninstallerData/Uninstall_ArcSightAgents -i console"
 						}
                 }
             }
