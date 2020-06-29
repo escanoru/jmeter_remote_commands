@@ -33,6 +33,10 @@ pipeline {
 					stage('Uninstalling previous connector (if exists)') {
 						sshCommand failOnError: false, remote: remote, command: "printf \"\n\" | /opt/arcsight_smart_connector_syslogd_tcp_514/current/UninstallerData/Uninstall_ArcSightAgents -i console"
 						}
+					stage('Removing previous SmartConnetor folder (if exists)') {
+						sshCommand failOnError: false, remote: remote, command: "echo -e "\n\n\n\n//////////////////////////////////////////////\n\nUninstalling previous connector (if exists)\n\n/////////////////////////////////////////////\n\n\n" "
+						sshCommand failOnError: false, remote: remote, command: "printf \"\n\" | /opt/arcsight_smart_connector_syslogd_tcp_514/current/UninstallerData/Uninstall_ArcSightAgents -i console"
+						}	
                 }
             }
         }
