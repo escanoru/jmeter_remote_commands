@@ -1,6 +1,6 @@
 def setDescription() {
   def item = Jenkins.instance.getItemByFullName(env.JOB_NAME) 
-  item.setDescription("<h3 style=\"color:#138D75 \">Pipeline to install SmartConnetors</h3>") 
+  item.setDescription("<h3 style=\"color:#138D75 \">Job to install SmartConnetors</h3>") 
   item.save()
   }
 setDescription()
@@ -16,8 +16,13 @@ pipeline {
         string(
 		name: 'Host',
 		defaultValue: '15.214.',
-		description: '<h4>Kafka broker nodes separated by comma, e.g 15.214.x.x, 15.214.x.x, 15.214.x.x, 15.214.x.x</h4>'
+		description: '<h4>Target hosts separated by comma, e.g 10.0.0.2, 10.0.0.3, 10.0.0.4</h4>'
 		)
+        password(
+		name: 'Host_Password', 
+		defaultValue: 'arst@dm1n', 
+		description: '<h4>Host root\'s password. The default password is <span style=\"color:red\">arst@dm1n</span>, you can change it by clicking on \"Change Password\".</h4>'
+		)		
   }		
 	
     stages {		
@@ -25,10 +30,10 @@ pipeline {
             steps {
 			  script {
 				    def remote = [:]
-					remote.name = '15.214.139.152'
-					remote.host = '15.214.139.152'
+					remote.name = '${Host}'
+					remote.host = '${Host}'
 					remote.user = 'root'
-					remote.password = 'arst@dm1n'
+					remote.password = '${Host_Password}'
 					remote.allowAnyHosts = true
 					stage('Uninstalling previous connector (if exists)') {
 						sshCommand failOnError: false, remote: remote, command: "printf \"\n\" | /opt/arcsight_smart_connector_syslogd_tcp_514/current/UninstallerData/Uninstall_ArcSightAgents -i console"
