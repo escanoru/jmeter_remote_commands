@@ -9,7 +9,8 @@ pipeline {
     }
 */
 
-node {
+pipeline {
+	agent any
   parameters {
         string(
 		name: 'Target_Host', 
