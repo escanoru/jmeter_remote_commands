@@ -20,14 +20,7 @@ pipeline {
 		)
   }		
 	
-    stages {
-        stage('Emty Tasks') {
-            steps {
-                sh '''
-				echo "empty"
-				'''
-            }
-        }		
+    stages {		
         stage('Setting Parameters') {	
             steps {
 			  script {
