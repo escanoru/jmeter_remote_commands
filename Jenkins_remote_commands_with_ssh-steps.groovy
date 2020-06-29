@@ -1,32 +1,76 @@
-/*
-pipeline {
-  agent any
-  parameters {
-        string(
-		name: 'Target_Host', 
-		description: '<h4>Node ip separated by comma where Telegraf will be installed, e.g 15.214.x.x, 15.214.x.x, 15.214.x.x, 15.214.x.x.</h4>'
-		)
-    }
-*/
+def setDescription() { 
+  def item = Jenkins.instance.getItemByFullName(env.JOB_NAME) 
+  item.setDescription("<h3><span style=\"color:green\">Jmeter pipeline to send events to Kafka topics (MS Windows events collected from the arcsight.com domain controller) </h3> \n<h3>Dashboard: <a href=\"https://15.214.145.90:8083/d/H3TCoAjWz/th-kafka-metrics-single-instance-node-metrics?orgId=5\">TH Kafka Metrics (Single Instance) + Node Metrics</a></span></h3>") 
+  item.save()
+  }
+setDescription()
 
+
+// Functions
+def jmeter_command() {
+    sh '''
+	/opt/jmeter/bin/jmeter.sh -n -t ${WORKSPACE}/Jmeter_Pepperbox_MS_WindowsEvents.jmx
+	'''
+}
+
+jmeter_instances_1 = [
+    "Single Instance": {
+        jmeter_command()
+    }
+]
+
+jmeter_instances_2 = [
+    "Parallel Instances-1": {
+        jmeter_command()
+    },
+	"Parallel Instances-2": {
+        jmeter_command()
+    }
+]
+
+// Declarative //
 pipeline {
-	agent any
+	agent { label 'jmeter_slave' }
+	options {
+		ansiColor('xterm')
+		buildDiscarder(logRotator(daysToKeepStr: '180'))
+		}
   parameters {
         string(
-		name: 'Target_Host', 
-		description: '<h4>Node ip separated by comma where Telegraf will be installed, e.g 15.214.x.x, 15.214.x.x, 15.214.x.x, 15.214.x.x.</h4>'
+		name: 'Host',
+		defaultValue: '15.214.',
+		description: '<h4>Kafka broker nodes separated by comma, e.g 15.214.x.x, 15.214.x.x, 15.214.x.x, 15.214.x.x</h4>'
 		)
-  }
-  def remote = [:]
-  remote.name = '15.214.139.152'
-  remote.host = '15.214.139.152'
-  remote.user = 'root'
-  remote.password = 'arst@dm1n'
-  remote.allowAnyHosts = true
-  stage('Uninstalling previous connector (if exists)') {
-    sshCommand failOnError: false, remote: remote, command: "printf \"\n\" | /opt/arcsight_smart_connector_syslogd_tcp_514/current/UninstallerData/Uninstall_ArcSightAgents -i console"
-  }
-  stage('Removing previous connector folder (if exists)') {
-    sshCommand remote: remote, command: "rm -rf /opt/arcsight_smart_connector_syslogd_tcp_514/"
-  }  
+	
+    stages {
+        stage('Setting Parameters') {
+            steps {
+                sh '''
+				echo "empty"
+				'''
+            }
+        }		
+        stage('Uninstalling previous connector (if exists)') {	
+            steps {
+			  script {
+				    def remote = [:]
+					remote.name = '15.214.139.152'
+					remote.host = '15.214.139.152'
+					remote.user = 'root'
+					remote.password = 'arst@dm1n'
+					remote.allowAnyHosts = true
+					stage('Uninstalling previous connector (if exists)') {
+						sshCommand remote: remote, command: "printf \"\n\" | /opt/arcsight_smart_connector_syslogd_tcp_514/current/UninstallerData/Uninstall_ArcSightAgents -i console"
+						}
+                }
+            }
+        }
+    }
+	
+    post {
+        always {
+            echo 'Clenning up the workspace'
+            deleteDir()
+        }
+	}	
 }
