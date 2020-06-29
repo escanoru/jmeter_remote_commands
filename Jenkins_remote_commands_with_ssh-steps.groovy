@@ -1,43 +1,23 @@
-// Declarative //
 pipeline {
-  agent { label 'jmeter_slave' }
-  options {
-    ansiColor('xterm')
-	buildDiscarder(logRotator(daysToKeepStr: '180'))
-		}
+  agent any
   parameters {
         string(
-		name: 'Host',
-		defaultValue: '15.214.',
-		description: '<h4>Target host where the SmartConnector will be installed separated by comma, e.g 15.214.x.x, 15.214.x.x, 15.214.x.x, 15.214.x.x</h4>'
+		name: 'Target_Host', 
+		description: '<h4>Node ip separated by comma where Telegraf will be installed, e.g 15.214.x.x, 15.214.x.x, 15.214.x.x, 15.214.x.x.</h4>'
 		)
-        password(
-		name: 'Host_Password', 
-		defaultValue: 'arst@dm1n', 
-		description: '<h4>Host root\'s password. The default password is <span style=\"color:red\">arst@dm1n</span>, you can change it by clicking on \"Change Password\".</h4>'
-		)		
     }
 	
+node {
   def remote = [:]
-  remote.name = 'test'
-  remote.host = '${Host}'
+  remote.name = '15.214.139.152'
+  remote.host = '15.214.139.152'
   remote.user = 'root'
-  remote.password = '${Host_Password}'
+  remote.password = 'arst@dm1n'
   remote.allowAnyHosts = true
-	
-    stages {
-        stage('Testing ssh-steps') {
-            steps {
-			  sshCommand remote: remote, command: "ls -lrt"
-			  sshCommand remote: remote, command: "for i in {1..5}; do echo -n \"Loop \$i \"; date ; sleep 1; done"
-            }
-        }		
-    }
-	
-    post {
-        always {
-            echo 'Clenning up the workspace'
-            deleteDir()
-        }
-	}	
+  stage('Uninstalling previous connector (if exists)') {
+    sshCommand remote: remote, command: "printf \"\n\" | /opt/arcsight_smart_connector_syslogd_tcp_514/current/UninstallerData/Uninstall_ArcSightAgents -i console"
+  }
+  stage('Removing previous connector folder (if exists)') {
+    sshCommand remote: remote, command: "rm -rf /opt/arcsight_smart_connector_syslogd_tcp_514/"
+  }  
 }
