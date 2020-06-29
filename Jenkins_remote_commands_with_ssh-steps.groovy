@@ -1,6 +1,6 @@
 def setDescription() {
   def item = Jenkins.instance.getItemByFullName(env.JOB_NAME) 
-  item.setDescription("<h3>Pipeline to install SmartConnetors</h3>") 
+  item.setDescription("<h3 style=\"color:#138D75 \">Pipeline to install SmartConnetors</h3>") 
   item.save()
   }
 setDescription()
