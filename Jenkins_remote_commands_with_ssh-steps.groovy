@@ -1,6 +1,6 @@
 def setDescription() {
   def item = Jenkins.instance.getItemByFullName(env.JOB_NAME) 
-  item.setDescription("<h3><span style=\"color:green\">Jmeter pipeline to send events to Kafka topics (MS Windows events collected from the arcsight.com domain controller) </h3> \n<h3>Dashboard: <a href=\"https://15.214.145.90:8083/d/H3TCoAjWz/th-kafka-metrics-single-instance-node-metrics?orgId=5\">TH Kafka Metrics (Single Instance) + Node Metrics</a></span></h3>") 
+  item.setDescription("<h3>Pipeline to install SmartConnetors</h3>") 
   item.save()
   }
 setDescription()
