@@ -1,6 +1,6 @@
 def setDescription() {
   def item = Jenkins.instance.getItemByFullName(env.JOB_NAME) 
-  item.setDescription("<h2 style=\"color:#138D75 \">Job to run commands o remote hosts through ssh</h2>") 
+  item.setDescription("<h2 style=\"color:#138D75 \">Job to run commands on remote hosts through ssh</h2>") 
   item.save()
   }
 setDescription()
