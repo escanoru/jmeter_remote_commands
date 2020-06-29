@@ -30,8 +30,8 @@ pipeline {
             steps {
 			  script {
 				    def remote = [:]
-					remote.name = "${Host}"
-					remote.host = "${Host}"
+					remote.name = "${params.Host}"
+					remote.host = "${params.Host}"
 					remote.user = 'root'
 					remote.password = ${params.Host_Password}
 					remote.allowAnyHosts = true
