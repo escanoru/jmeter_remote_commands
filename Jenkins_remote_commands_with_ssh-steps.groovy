@@ -31,11 +31,11 @@ pipeline {
 					remote.password = 'arst@dm1n'
 					remote.allowAnyHosts = true
 					stage('Uninstalling previous connector (if exists)') {
-						sshCommand failOnError: false, remote: remote, command: "echo -e \"\\n\\n\n\n//////////////////////////////////////////////\n\nUninstalling previous connector \(if exists\)\n\n/////////////////////////////////////////////\n\n\n\""
+						sshCommand failOnError: false, remote: remote, command: "echo -e \"\\n\\n\n\n//////////////////////////////////////////////\n\nUninstalling previous connector (if exists)\n\n/////////////////////////////////////////////\n\n\n\""
 						sshCommand failOnError: false, remote: remote, command: "printf \"\n\" | /opt/arcsight_smart_connector_syslogd_tcp_514/current/UninstallerData/Uninstall_ArcSightAgents -i console"
 						}
 					stage('Removing previous SmartConnetor folder (if exists)') {
-						sshCommand failOnError: false, remote: remote, command: "echo -e \"\n\n\n\n//////////////////////////////////////////////\n\nRemoving previous SmartConnector folder (if exists) \(if exists\)\n\n/////////////////////////////////////////////\n\n\n\" "
+						sshCommand failOnError: false, remote: remote, command: "echo -e \"\n\n\n\n//////////////////////////////////////////////\n\nRemoving previous SmartConnector folder (if exists)\n\n/////////////////////////////////////////////\n\n\n\" "
 						sshCommand failOnError: false, remote: remote, command: "printf \"\n\" | /opt/arcsight_smart_connector_syslogd_tcp_514/current/UninstallerData/Uninstall_ArcSightAgents -i console"
 						}	
                 }
