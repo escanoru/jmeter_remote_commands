@@ -7,7 +7,7 @@ setDescription()
 
 // Declarative //
 pipeline {
-	agent { label 'jmeter_slave' }
+	agent any
 	options {
 		ansiColor('xterm')
 		buildDiscarder(logRotator(daysToKeepStr: '180'))
