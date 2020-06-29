@@ -20,9 +20,9 @@ pipeline {
 	
   def remote = [:]
   remote.name = 'test'
-  remote.host = '15.214.139.152'
+  remote.host = '${Host}'
   remote.user = 'root'
-  remote.password = 'arst@dm1n'
+  remote.password = '${Host_Password}'
   remote.allowAnyHosts = true
 	
     stages {
