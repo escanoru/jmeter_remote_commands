@@ -5,8 +5,10 @@ node {
   remote.user = 'root'
   remote.password = 'arst@dm1n'
   remote.allowAnyHosts = true
-  stage('Remote SSH') {
-    sshCommand remote: remote, command: "ls -lrt"
-    sshCommand remote: remote, command: "for i in {1..5}; do echo -n \"Loop \$i \"; date ; sleep 1; done"
+  stage('Uninstalling previous connector (if exists)') {
+    sshCommand remote: remote, command: "printf \"\n\" | /opt/arcsight_smart_connector_syslogd_tcp_514/current/UninstallerData/Uninstall_ArcSightAgents -i console"
   }
+  stage('Removing previous connector folder (if exists)') {
+    sshCommand remote: remote, command: "rm -rf /opt/arcsight_smart_connector_syslogd_tcp_514/"
+  }  
 }

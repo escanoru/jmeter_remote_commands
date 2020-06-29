@@ -1,9 +1,9 @@
 // Declarative //
 pipeline {
-	agent { label 'jmeter_slave' }
-	options {
-		ansiColor('xterm')
-		buildDiscarder(logRotator(daysToKeepStr: '180'))
+  agent { label 'jmeter_slave' }
+  options {
+    ansiColor('xterm')
+	buildDiscarder(logRotator(daysToKeepStr: '180'))
 		}
   parameters {
         string(
