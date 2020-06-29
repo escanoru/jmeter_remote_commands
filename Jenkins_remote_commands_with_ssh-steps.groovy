@@ -15,6 +15,7 @@ node {
 		name: 'Target_Host', 
 		description: '<h4>Node ip separated by comma where Telegraf will be installed, e.g 15.214.x.x, 15.214.x.x, 15.214.x.x, 15.214.x.x.</h4>'
 		)
+  }
   def remote = [:]
   remote.name = '15.214.139.152'
   remote.host = '15.214.139.152'
