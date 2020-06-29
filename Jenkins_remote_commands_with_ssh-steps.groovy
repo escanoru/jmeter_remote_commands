@@ -21,7 +21,7 @@ pipeline {
   }		
 	
     stages {		
-        stage('Startin SSH-Steps') {	
+        stage('Starting SSH-Steps') {	
             steps {
 			  script {
 				    def remote = [:]
