@@ -3,7 +3,7 @@ node {
   remote.name = '15.214.139.152'
   remote.host = '15.214.139.152'
   remote.user = 'root'
-  remote.password = 'password'
+  remote.password = 'arst@dm1n'
   remote.allowAnyHosts = true
   stage('Remote SSH') {
     sshCommand remote: remote, command: "ls -lrt"
