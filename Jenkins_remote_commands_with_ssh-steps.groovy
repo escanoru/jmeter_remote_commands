@@ -30,10 +30,10 @@ pipeline {
             steps {
 			  script {
 				    def remote = [:]
-					remote.name = '${params.Host}'
-					remote.host = '${params.Host}'
+					remote.name = ${params.Host}
+					remote.host = ${params.Host}
 					remote.user = 'root'
-					remote.password = '${params.Host_Password}'
+					remote.password = ${params.Host_Password}
 					remote.allowAnyHosts = true
 					stage('Uninstalling previous connector (if exists)') {
 						sshCommand failOnError: false, remote: remote, command: "printf \"\n\" | /opt/arcsight_smart_connector_syslogd_tcp_514/current/UninstallerData/Uninstall_ArcSightAgents -i console"
